@@ -15,7 +15,7 @@ React Native Local and Remote Notifications for iOS and Android
 
 
 ## Installation
-`npm install --save react-native-push-notification`
+`npm install --save fanapptic-react-native-push-notification`
 
 `react-native link`
 
@@ -36,18 +36,17 @@ The component uses PushNotificationIOS for the iOS part.
 
 ## Android manual Installation
 
-**NOTE: To use a specific `play-service-gcm` version:**
-
-In your `android/build.gradle`
+**NOTE: To use a specific `play-service-gcm` version, use in your `android/app/build.gradle` (change `8.1.0` for your version):**
 ```gradle
-ext {
-    googlePlayServicesVersion = "<Your play services version>" // default: "+"
+...
 
-    // Other settings
-    compileSdkVersion = "<Your compile SDK version>" // default: 23
-    buildToolsVersion = "<Your build tools version>" // default: "23.0.1"
-    targetSdkVersion = "<Your target SDK version>" // default: 23
-    supportLibVersion = "<Your support lib version>" // default: 23.1.1
+dependencies {
+    ...
+
+    compile project(':react-native-push-notification')
+    compile ('com.google.android.gms:play-services-gcm:8.1.0') {
+        force = true;
+    }
 }
 ```
 
@@ -96,7 +95,7 @@ In `android/settings.gradle`
 ...
 
 include ':react-native-push-notification'
-project(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')
+project(':react-native-push-notification').projectDir = file('../node_modules/fanapptic-react-native-push-notification/android')
 ```
 
 Manually register module in `MainApplication.java` (if you did not use `react-native link`):
@@ -210,7 +209,7 @@ PushNotification.localNotification({
     userInfo: // (optional) default: null (object containing additional notification data)
 
     /* iOS and Android properties */
-    title: "My Notification Title", // (optional)
+    title: "My Notification Title", // (optional, for iOS this is only used in apple watch, the title will be the app name on other iOS devices)
     message: "My Notification Message", // (required)
     playSound: false, // (optional) default: true
     soundName: 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
